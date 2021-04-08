@@ -3,21 +3,29 @@ require 'openssl'
 class User < ApplicationRecord
   ITERATIONS = 20_000
   DIGEST = OpenSSL::Digest.new('SHA256')
-
-  has_many :questions
-
-  validates :email, :username, presence: true
-  validates :email, :username, uniqueness: true
-  validates :username, length: { maximum: 40 }
-  validates :username, format: { with: /[A-Za-z0-9_]+/ }
-  validates :email, format: { with: /\A\w+@\w+\.[a-z]+\z/ }
+  VALID_EMAIL = /\A\w+@\w+\.[a-z]+\z/
+  VALID_USERNAME = /\A\w+\z/
 
   attr_accessor :password
 
-  validates :password, presence: true, on: :create
-  validates_confirmation_of :password
-
+  has_many :questions
   before_save :encrypt_password
+
+  validates :email,
+            presence: true,
+            uniqueness: true,
+            format: { with: VALID_EMAIL }
+  
+  validates :username,
+            presence: true,
+            uniqueness: true,
+            length: { maximum: 40 },
+            format: { with: VALID_USERNAME }
+
+  validates :password, presence: true, on: :create
+  validates :password, confirmation: true
+
+  private
 
   def encrypt_password
     if password.present?
@@ -29,7 +37,6 @@ class User < ApplicationRecord
           password, password_salt, ITERATIONS, DIGEST.length, DIGEST
         )
       )
-
     end
   end
 
@@ -47,9 +54,7 @@ class User < ApplicationRecord
         password, user.password_salt, ITERATIONS, DIGEST.length, DIGEST
       )
     )
-
     return user if user.password_hash == hashed_password
-
     nil
   end
 end
