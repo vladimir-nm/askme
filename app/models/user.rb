@@ -9,13 +9,14 @@ class User < ApplicationRecord
   attr_accessor :password
 
   has_many :questions
+  before_validation :downcase_username
   before_save :encrypt_password
 
   validates :email,
             presence: true,
             uniqueness: true,
             format: { with: VALID_EMAIL }
-  
+
   validates :username,
             presence: true,
             uniqueness: true,
@@ -40,10 +41,15 @@ class User < ApplicationRecord
       )
     )
     return user if user.password_hash == hashed_password
+
     nil
   end
 
   private
+
+  def downcase_username
+    self.username = username.downcase if username.present?
+  end
 
   def encrypt_password
     if password.present?
@@ -56,5 +62,5 @@ class User < ApplicationRecord
         )
       )
     end
-  end  
+  end
 end
