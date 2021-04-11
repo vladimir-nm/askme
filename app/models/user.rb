@@ -31,7 +31,7 @@ class User < ApplicationRecord
   end
 
   def self.authenticate(email, password)
-    user = find_by(email: email)
+    user = find_by(email: email&.downcase)
 
     return nil unless user.present?
 
@@ -47,11 +47,11 @@ class User < ApplicationRecord
   private
 
   def downcase_username
-    self.username = username.downcase
+    username&.downcase!
   end
 
   def downcase_email
-    self.email = email.downcase
+    email&.downcase!
   end
 
   def encrypt_password
