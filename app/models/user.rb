@@ -8,8 +8,8 @@ class User < ApplicationRecord
 
   attr_accessor :password
 
-  has_many :questions
-  before_validation :downcase_username
+  has_many :questions, dependent: :destroy
+  before_validation :downcase_username, :downcase_email
   before_save :encrypt_password
 
   validates :email,
@@ -41,14 +41,17 @@ class User < ApplicationRecord
       )
     )
     return user if user.password_hash == hashed_password
-
     nil
   end
 
   private
 
   def downcase_username
-    self.username = username.downcase if username.present?
+    self.username = username.downcase
+  end
+
+  def downcase_email
+    self.email = email.downcase
   end
 
   def encrypt_password
