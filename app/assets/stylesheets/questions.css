@@ -23,8 +23,8 @@
   color: #005a55;
 }
 
-.question-answer {
-}
+/* .question-answer {
+} */
 
 .question-date {
   color: #a0a0a0;
@@ -40,4 +40,16 @@
 
 .question-actions a {
   margin-left: 10px;
+}
+
+.question-how-many {
+  color: #005a55;
+  font-size: 20px;
+  margin: auto;
+  text-align: center;
+}
+
+.question-how-many-item {
+  display: inline-block; 
+  margin-bottom: 10px;  
 }
