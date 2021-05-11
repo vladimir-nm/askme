@@ -7,8 +7,8 @@ module ApplicationHelper
     end
   end
 
-  def inclination(number_of_questions, array=[])    
-    return array.last if (11..14).include?(number_of_questions % 100)    
+  def inclination(number_of_questions, array=[])
+    return array.last if (11..14).include?(number_of_questions % 100)
 
     ostatok = number_of_questions % 10
 
