@@ -7,20 +7,18 @@ module ApplicationHelper
     end
   end
 
-  def inclination(number_of_questions)
-    questions = %w[вопрос вопроса вопросов]
-
-    return questions.last if (11..14).include?(number_of_questions % 100)
+  def inclination(number_of_questions, array=[])    
+    return array.last if (11..14).include?(number_of_questions % 100)    
 
     ostatok = number_of_questions % 10
 
     case ostatok
     when 1
-      questions.first
+      array.first
     when 2..4
-      questions[1]
+      array[1]
     else
-      questions.last
-    end
+      array.last
+    end    
   end
 end
