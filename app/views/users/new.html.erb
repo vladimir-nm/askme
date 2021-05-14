@@ -4,11 +4,11 @@
 
   <div class="column-1-2">
     <%= form_for @user do |f| %>
-      <% if @user.errors.any? %>
+      <% if @user.present? %>
         <div class="form-errors">
           <ul>
-            <% for message in @user.errors.full_messages %>
-              <li class="form-error-message"><%= message %></li>
+            <% @user.errors.each do |error| %>
+              <li class="form-error-message"><%= error.message %></li>
             <% end %>
           </ul>
         </div>
