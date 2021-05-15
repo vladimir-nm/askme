@@ -8,6 +8,6 @@ class ApplicationController < ActionController::Base
   end
 
   def reject_user
-    #redirect_to root_path, alert: 'Доступ закрыт!'
+    redirect_to root_path, alert: 'Доступ закрыт!'
   end
 end

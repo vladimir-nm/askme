@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :load_user, except: %i[index create new]
-  before_action :authorize_user, except: %i[:index :new :create :show]
+  before_action :authorize_user, except: %i[index new create show]
 
   def index
     @users = User.all
@@ -8,6 +8,7 @@ class UsersController < ApplicationController
 
   def new
     redirect_to root_url, alert: 'Вы уже залогинены' if current_user.present?
+
     @user = User.new
   end
 
@@ -17,12 +18,9 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      # redirect_to root_url, notice: 'Пользователь успешно зарегистрирован!'
-      flash[:success] = 'Пользователь успешно зарегистрирован!'
-      redirect_to root_url
+      redirect_to root_url, notice: 'Пользователь успешно зарегестрирован!'
     else
-      flash[:error] = 'Something went wrong'
-      render :new
+      render 'new'
     end
   end
 
@@ -31,19 +29,16 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      # redirect_to user_path(@user), notice: 'Данные обновлены!'
-      flash[:success] = 'Данные обновлены!'
-      redirect_to user_path(@user)
+      redirect_to user_path(@user), notice: 'Данные обновлены'
     else
-      flash[:error] = 'Something went wrong'
-      render :edit
+      render 'edit'
     end
   end
 
   def show
-    @questions = @user.questions.order(create_at: :desc)
+    @questions = @user.questions.order(created_at: :desc)
 
-    @new_question = @questions.build
+    @new_question = @user.questions.build
   end
 
   private
@@ -57,6 +52,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :name, :username, :avatar_url)
+    params.require(:user).permit(:email, :password, :password_confirmation,
+                                 :name, :username, :avatar_url)
   end
 end
