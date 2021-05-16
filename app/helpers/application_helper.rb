@@ -7,6 +7,10 @@ module ApplicationHelper
     end
   end
 
+  def fa_icon(icon_class)
+    content_tag 'span', '', class: "fa fa-#{icon_class}"
+  end
+
   def inclination(number_of_questions, array=[])
     return array.last if (11..14).include?(number_of_questions % 100)
 
