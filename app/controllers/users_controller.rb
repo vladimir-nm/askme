@@ -11,7 +11,7 @@ class UsersController < ApplicationController
 
     @user = User.new
   end
-
+  
   def create
     redirect_to root_path, alert: 'Вы уже залогинены' if current_user.present?
 
@@ -25,6 +25,12 @@ class UsersController < ApplicationController
     end
   end
 
+  def destroy
+    @user = User.find(params[:id])
+    @user.destroy
+    redirect_to root_path, notice: "Профиль удален!"
+  end
+  
   def edit
   end
 
