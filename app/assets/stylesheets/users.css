@@ -53,6 +53,10 @@
   background: #D9E6E5;
 }
 
+.underline {
+  text-decoration: underline
+}
+
 @media (max-width: 960px) {
   .user-question-form {
     margin-left: 0;
