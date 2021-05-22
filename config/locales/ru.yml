@@ -19,4 +19,6 @@ ru:
     few: '%{count} безответных'
     many: '%{count} безответных'
     other: '%{count} безответные'
+
+  profile_color: 'Цвет вашего профиля'  
     
